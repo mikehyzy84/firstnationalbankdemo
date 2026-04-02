@@ -66,16 +66,38 @@ interface RecentTransaction {
   type: "debit" | "credit";
 }
 
-const recentTransactions: RecentTransaction[] = [
-  { date: "Mar 30", description: "WHOLE FOODS MARKET #489", amount: -87.34, type: "debit" },
-  { date: "Mar 29", description: "DIRECT DEPOSIT - EMPLOYER", amount: 2450.00, type: "credit" },
-  { date: "Mar 28", description: "NETFLIX.COM", amount: -15.99, type: "debit" },
-  { date: "Mar 27", description: "SHELL OIL #4521", amount: -52.10, type: "debit" },
-  { date: "Mar 26", description: "AMAZON MARKETPLACE", amount: -34.99, type: "debit" },
+const personalTransactions: RecentTransaction[] = [
+  { date: "Mar 30", description: "WHOLE FOODS MARKET #489",      amount: -87.34,   type: "debit"  },
+  { date: "Mar 29", description: "DIRECT DEPOSIT - EMPLOYER",    amount: 2450.00,  type: "credit" },
+  { date: "Mar 28", description: "NETFLIX.COM",                  amount: -15.99,   type: "debit"  },
+  { date: "Mar 28", description: "NETFLIX.COM",                  amount: -15.99,   type: "debit"  },
+  { date: "Mar 27", description: "SHELL OIL #4521",              amount: -52.10,   type: "debit"  },
+  { date: "Mar 26", description: "AMAZON MARKETPLACE",           amount: -34.99,   type: "debit"  },
+  { date: "Mar 26", description: "CHECK DEP #1847",              amount: 4200.00,  type: "credit" },
+  { date: "Mar 25", description: "POS DEBIT WPY*DNTRSVC",        amount: -129.00,  type: "debit"  },
+  { date: "Mar 24", description: "SPOTIFY PREMIUM",              amount: -16.99,   type: "debit"  },
+  { date: "Mar 23", description: "AT&T WIRELESS",                amount: -185.00,  type: "debit"  },
+  { date: "Mar 22", description: "OVERDRAFT FEE",                amount: -35.00,   type: "debit"  },
+  { date: "Mar 21", description: "DUKE ENERGY",                  amount: -287.50,  type: "debit"  },
+];
+
+const businessTransactions: RecentTransaction[] = [
+  { date: "Apr 1",  description: "PAYROLL - ADP",                  amount: -12400.00, type: "debit"  },
+  { date: "Mar 31", description: "VENDOR PMT - GRAINGER IND",      amount: -3847.00,  type: "debit"  },
+  { date: "Mar 30", description: "CLIENT INVOICE #2847",           amount: 18500.00,  type: "credit" },
+  { date: "Mar 29", description: "COMCAST BUSINESS",               amount: -249.99,   type: "debit"  },
+  { date: "Mar 28", description: "VENDOR PMT - GRAINGER IND",      amount: -3847.00,  type: "debit"  },
+  { date: "Mar 27", description: "OFFICE DEPOT #1192",             amount: -412.50,   type: "debit"  },
+  { date: "Mar 26", description: "CLIENT INVOICE #2831",           amount: 7200.00,   type: "credit" },
+  { date: "Mar 25", description: "COMMERCIAL RENT PMT",            amount: -4500.00,  type: "debit"  },
+  { date: "Mar 24", description: "EQUIP LEASE PMT - DEERE",        amount: -1875.00,  type: "debit"  },
+  { date: "Mar 23", description: "UNKNOWN ACH DEBIT - WEBSVCS",    amount: -899.00,   type: "debit"  },
 ];
 
 export default function OverviewPage() {
   const [showBalances, setShowBalances] = useState(true);
+  const [txTab, setTxTab] = useState<"personal" | "business">("personal");
+  const transactions = txTab === "personal" ? personalTransactions : businessTransactions;
 
   const totalBalance = accounts.reduce((sum, a) => sum + a.balance, 0);
 
@@ -210,14 +232,41 @@ export default function OverviewPage() {
 
       {/* Recent Transactions */}
       <div className="bg-white rounded-lg border border-[#CCCCCC] shadow-sm overflow-hidden">
+        {/* Header row */}
         <div className="bg-[#006B8F] px-5 py-3 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-white">Recent Transactions</h2>
           <button className="text-xs text-blue-200 hover:text-white flex items-center gap-1">
             View All <ChevronRight size={14} />
           </button>
         </div>
-        <div className="divide-y divide-gray-100">
-          {recentTransactions.map((tx, idx) => (
+
+        {/* Account toggle tabs */}
+        <div className="flex border-b border-gray-200">
+          <button
+            onClick={() => setTxTab("personal")}
+            className={`flex-1 py-2 text-xs font-semibold tracking-wide transition-colors ${
+              txTab === "personal"
+                ? "bg-white text-[#006B8F] border-b-2 border-[#006B8F]"
+                : "bg-gray-50 text-gray-500 hover:text-[#006B8F]"
+            }`}
+          >
+            Personal Checking ****4821
+          </button>
+          <button
+            onClick={() => setTxTab("business")}
+            className={`flex-1 py-2 text-xs font-semibold tracking-wide transition-colors ${
+              txTab === "business"
+                ? "bg-white text-[#006B8F] border-b-2 border-[#006B8F]"
+                : "bg-gray-50 text-gray-500 hover:text-[#006B8F]"
+            }`}
+          >
+            Business Checking ****2156
+          </button>
+        </div>
+
+        {/* Scrollable transaction list */}
+        <div className="max-h-80 overflow-y-auto divide-y divide-gray-100">
+          {transactions.map((tx, idx) => (
             <div
               key={idx}
               className={`flex items-center justify-between px-5 py-3 ${
@@ -229,7 +278,7 @@ export default function OverviewPage() {
                 <span className="text-sm text-gray-700">{tx.description}</span>
               </div>
               <span
-                className={`text-sm font-semibold ${
+                className={`text-sm font-semibold whitespace-nowrap ml-4 ${
                   tx.type === "credit" ? "text-green-600" : "text-gray-800"
                 }`}
               >
