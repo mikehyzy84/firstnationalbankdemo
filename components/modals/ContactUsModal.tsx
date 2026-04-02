@@ -4,9 +4,10 @@ import { X, Phone, User, Calendar, Mail, MessageSquare, MapPin } from "lucide-re
 
 interface ContactUsModalProps {
   onClose: () => void;
+  onOpenVoiceAgent?: () => void;
 }
 
-export default function ContactUsModal({ onClose }: ContactUsModalProps) {
+export default function ContactUsModal({ onClose, onOpenVoiceAgent }: ContactUsModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
@@ -89,15 +90,15 @@ export default function ContactUsModal({ onClose }: ContactUsModalProps) {
               Secure Email Messaging &gt;
             </a>
 
-            <a
-              href="#"
-              className="flex items-center gap-3 text-[#006B8F] hover:text-[#005a78] text-sm font-medium transition-colors"
+            <button
+              onClick={() => { onClose(); onOpenVoiceAgent?.(); }}
+              className="flex items-center gap-3 text-[#006B8F] hover:text-[#005a78] text-sm font-medium transition-colors w-full text-left"
             >
               <div className="flex-shrink-0 w-8 h-8 border border-[#006B8F] rounded-full flex items-center justify-center">
                 <MessageSquare size={15} className="text-[#006B8F]" />
               </div>
               Chat with an Agent &gt;
-            </a>
+            </button>
 
             <a
               href="#"

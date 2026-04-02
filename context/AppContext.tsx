@@ -23,6 +23,9 @@ interface AppContextType {
   isContactModalOpen: boolean;
   openContactModal: () => void;
   closeContactModal: () => void;
+  isVoiceAgentOpen: boolean;
+  openVoiceAgent: () => void;
+  closeVoiceAgent: () => void;
   user: User;
 }
 
@@ -31,6 +34,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [activeNav, setActiveNav] = useState<NavItem>("overview");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isVoiceAgentOpen, setIsVoiceAgentOpen] = useState(false);
 
   const user: User = {
     firstName: "ANTHONY",
@@ -40,6 +44,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const openContactModal = () => setIsContactModalOpen(true);
   const closeContactModal = () => setIsContactModalOpen(false);
+  const openVoiceAgent = () => setIsVoiceAgentOpen(true);
+  const closeVoiceAgent = () => setIsVoiceAgentOpen(false);
 
   return (
     <AppContext.Provider
@@ -49,6 +55,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         isContactModalOpen,
         openContactModal,
         closeContactModal,
+        isVoiceAgentOpen,
+        openVoiceAgent,
+        closeVoiceAgent,
         user,
       }}
     >

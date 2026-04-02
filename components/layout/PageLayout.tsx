@@ -5,6 +5,8 @@ import Header from "./Header";
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import ContactUsModal from "@/components/modals/ContactUsModal";
+import VoiceAgent from "@/components/VoiceAgent";
+import VoiceAgentTrigger from "@/components/VoiceAgentTrigger";
 import { useApp } from "@/context/AppContext";
 
 interface PageLayoutProps {
@@ -12,7 +14,7 @@ interface PageLayoutProps {
 }
 
 export default function PageLayout({ children }: PageLayoutProps) {
-  const { isContactModalOpen, closeContactModal } = useApp();
+  const { isContactModalOpen, closeContactModal, openVoiceAgent } = useApp();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F5F5]">
@@ -28,17 +30,18 @@ export default function PageLayout({ children }: PageLayoutProps) {
       <Footer />
 
       {/* Contact Us Modal */}
-      {isContactModalOpen && <ContactUsModal onClose={closeContactModal} />}
+      {isContactModalOpen && (
+        <ContactUsModal
+          onClose={closeContactModal}
+          onOpenVoiceAgent={openVoiceAgent}
+        />
+      )}
 
-      {/*
-       * ELEVENLABS VOICE AGENT WIDGET PLACEHOLDER
-       * To add the ElevenLabs voice agent, drop the widget component here:
-       * Example:
-       * <ElevenLabsWidget agentId="your-agent-id" />
-       *
-       * The widget should be a fixed/floating component that renders
-       * on top of the page content.
-       */}
+      {/* ElevenLabs Voice Agent — floating panel (bottom-right) */}
+      <VoiceAgent />
+
+      {/* Floating mic trigger button — visible when agent panel is closed */}
+      <VoiceAgentTrigger />
     </div>
   );
 }

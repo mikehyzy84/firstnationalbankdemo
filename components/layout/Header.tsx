@@ -28,7 +28,7 @@ function FNBLogo() {
 }
 
 export default function Header() {
-  const { user, openContactModal } = useApp();
+  const { user, openContactModal, openVoiceAgent } = useApp();
 
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm">
@@ -62,10 +62,11 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Chat */}
+          {/* Chat — opens Voice Agent */}
           <button
+            onClick={openVoiceAgent}
             className="flex items-center justify-center w-9 h-9 rounded hover:bg-gray-100 text-gray-600"
-            title="Chat"
+            title="Chat with an Agent"
           >
             <MessageSquare size={20} />
           </button>
