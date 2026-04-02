@@ -28,7 +28,7 @@ export default function AccountDropdown() {
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex items-center gap-1.5 bg-[#006B8F] text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-[#005a78] transition-colors"
       >
-        ANTHONY
+        Mike
         <ChevronDown size={14} />
       </button>
 

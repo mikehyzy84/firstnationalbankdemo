@@ -42,9 +42,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [voiceInitState, setVoiceInitState] = useState<VoiceInitState>("initializing");
 
   const user: User = {
-    firstName: "ANTHONY",
-    lastName: "USER",
-    displayName: "ANTHONY",
+    firstName: "Mike",
+    lastName: "User",
+    displayName: "Mike",
   };
 
   const openContactModal = () => setIsContactModalOpen(true);
