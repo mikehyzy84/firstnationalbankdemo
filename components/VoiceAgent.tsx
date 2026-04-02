@@ -142,21 +142,24 @@ export default function VoiceAgent() {
         </div>
       </div>
 
-      {/* Floating trigger button (always visible while panel is open) */}
+      {/* Collapse pill — matches trigger style */}
       <button
         onClick={handleClose}
-        className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-colors ${
+        className={`relative flex items-center gap-2 pl-3 pr-4 py-2 rounded-full shadow-xl border border-white/10 transition-all duration-300 ${
           isConnected
-            ? "bg-[#A01E22] hover:bg-[#8a1a1d]"
-            : "bg-[#006B8F] hover:bg-[#005a78]"
+            ? "bg-gradient-to-r from-[#7a1518] via-[#A01E22] to-[#c0272b]"
+            : "bg-gradient-to-r from-[#004f6b] via-[#006B8F] to-[#1B9AC4]"
         }`}
         title="Close voice agent"
       >
         {isConnected ? (
-          <MicOff size={22} className="text-white" />
+          <MicOff size={16} className="text-white" />
         ) : (
-          <X size={22} className="text-white" />
+          <X size={16} className="text-white" />
         )}
+        <span className="text-sm font-semibold text-white">
+          {isConnected ? "End Call" : "Close"}
+        </span>
       </button>
     </div>
   );
