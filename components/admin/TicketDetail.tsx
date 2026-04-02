@@ -4,13 +4,22 @@ import { useState, useEffect } from "react";
 import { X, Mail } from "lucide-react";
 import { useAdmin, Ticket } from "@/context/AdminContext";
 
-const VOICE_TRANSCRIPT = [
-  { speaker: "Santosh AI Agent", text: "Thank you for calling First National Bank. I'm Santosh, your AI banking assistant. How can I help you today?" },
-  { speaker: "Customer", text: "Yeah, I've got a charge on my account I don't recognize. AMZ Digital Services, $47.99." },
-  { speaker: "Santosh AI Agent", text: "I'm sorry to hear that. Let me pull up your account. I can see the charge posted yesterday at 11:42 PM. I'm creating a support ticket right now and flagging this for our fraud review team. You'll receive a call back within 24 hours. Is there anything else I can help you with?" },
-  { speaker: "Customer", text: "No, that's it. Thanks." },
-  { speaker: "Santosh AI Agent", text: "Ticket FNB-4721 has been created. Our team will be in touch shortly." },
-];
+const TRANSCRIPTS: Record<string, { speaker: string; text: string }[]> = {
+  "FNB-4721": [
+    { speaker: "Fiona", text: "Thank you for calling First National Bank. I'm Fiona, your AI banking assistant. How can I help you today?" },
+    { speaker: "Customer", text: "Hi, I'm looking at my account and I see two Netflix charges of $15.99 on March 28th. That doesn't seem right — I only have one subscription." },
+    { speaker: "Fiona", text: "I can see both charges on your Personal Checking account ending in 4821 — two transactions from Netflix posted on March 28, each for $15.99. That does appear to be a duplicate. I'm creating a support ticket now to have our team investigate and reverse the duplicate charge." },
+    { speaker: "Customer", text: "Yes please, that would be great." },
+    { speaker: "Fiona", text: "Ticket FNB-4721 has been created. A representative will follow up with you within 24 hours." },
+  ],
+  "FNB-4718": [
+    { speaker: "Fiona", text: "Thank you for calling First National Bank. I'm Fiona, your AI banking assistant. How can I help you today?" },
+    { speaker: "Customer", text: "Hi, I deposited a check — check number 1847 for $4,200 — but it went into my personal checking instead of my business checking." },
+    { speaker: "Fiona", text: "I can see Check Deposit #1847 for $4,200 posted to your Personal Checking account ending in 4821. You'd like this transferred to your Business Checking account ending in 2156 — is that correct?" },
+    { speaker: "Customer", text: "That's right, yes." },
+    { speaker: "Fiona", text: "Understood. I'm flagging this as a misrouted deposit and creating a ticket for our team to process the correction. Ticket FNB-4718 has been created and will be reviewed within 24 hours." },
+  ],
+};
 
 const AGENTS = ["Sarah Chen", "Michael Park", "Jennifer Walsh", "Alex Rivera", "David Kim"];
 
@@ -116,18 +125,18 @@ export default function TicketDetail() {
             <div className={`text-xs font-semibold tracking-wider mt-1 ${sla.color}`}>{sla.sublabel}</div>
           </div>
 
-          {/* Voice Transcript — FNB-4721 only */}
-          {ticket.id === "FNB-4721" && (
+          {/* Voice Transcript — Fiona (Mike's tickets) */}
+          {TRANSCRIPTS[ticket.id] && (
             <div>
               <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                Voice Transcript — Santosh AI Agent
+                Voice Transcript — Fiona
               </h3>
               <div className="bg-gray-100 rounded p-3 space-y-2">
-                {VOICE_TRANSCRIPT.map((line, i) => (
+                {TRANSCRIPTS[ticket.id].map((line, i) => (
                   <div key={i}>
                     <span
                       className={`text-xs font-semibold ${
-                        line.speaker === "Santosh AI Agent"
+                        line.speaker === "Fiona"
                           ? "text-[#006B8F]"
                           : "text-gray-500"
                       }`}
@@ -153,7 +162,7 @@ export default function TicketDetail() {
             <div className="space-y-0">
               {/* Ticket created */}
               <TimelineItem color="bg-[#006B8F]">
-                <div className="text-sm text-gray-700">Ticket created by AI Voice Agent — Santosh</div>
+                <div className="text-sm text-gray-700">Ticket created by AI Voice Agent — Fiona</div>
                 <div className="text-xs text-gray-400">{ticket.createdHoursAgo}h ago</div>
               </TimelineItem>
 
