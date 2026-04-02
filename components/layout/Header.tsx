@@ -3,6 +3,7 @@
 import { Mail, MessageSquare, Phone, MapPin, Settings } from "lucide-react";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
+import AccountDropdown from "@/components/admin/AccountDropdown";
 
 function FNBLogo() {
   return (
@@ -96,13 +97,10 @@ export default function Header() {
             <Settings size={20} />
           </button>
 
-          {/* Log out */}
-          <Link
-            href="/login"
-            className="ml-2 px-4 py-1.5 bg-[#006B8F] text-white text-sm font-medium rounded hover:bg-[#005a78] transition-colors"
-          >
-            Log out
-          </Link>
+          {/* Account dropdown */}
+          <div className="ml-2">
+            <AccountDropdown />
+          </div>
         </div>
       </div>
     </header>
