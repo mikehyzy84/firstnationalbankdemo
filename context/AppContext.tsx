@@ -17,6 +17,8 @@ interface User {
   displayName: string;
 }
 
+type VoiceInitState = "initializing" | "ready" | "unavailable";
+
 interface AppContextType {
   activeNav: NavItem;
   setActiveNav: (item: NavItem) => void;
@@ -26,6 +28,8 @@ interface AppContextType {
   isVoiceAgentOpen: boolean;
   openVoiceAgent: () => void;
   closeVoiceAgent: () => void;
+  voiceInitState: VoiceInitState;
+  setVoiceInitState: (state: VoiceInitState) => void;
   user: User;
 }
 
@@ -35,6 +39,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeNav, setActiveNav] = useState<NavItem>("overview");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isVoiceAgentOpen, setIsVoiceAgentOpen] = useState(false);
+  const [voiceInitState, setVoiceInitState] = useState<VoiceInitState>("initializing");
 
   const user: User = {
     firstName: "ANTHONY",
@@ -58,6 +63,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         isVoiceAgentOpen,
         openVoiceAgent,
         closeVoiceAgent,
+        voiceInitState,
+        setVoiceInitState,
         user,
       }}
     >
